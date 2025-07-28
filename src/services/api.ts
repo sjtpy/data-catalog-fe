@@ -15,8 +15,6 @@ export interface Event {
     type: string;
     description: string;
     propertyIds: string[];
-    createTime: string;
-    updateTime: string;
 }
 
 export interface Property {
@@ -24,8 +22,6 @@ export interface Property {
     name: string;
     type: string;
     description: string;
-    createTime: string;
-    updateTime: string;
 }
 
 export interface TrackingPlan {
@@ -33,15 +29,14 @@ export interface TrackingPlan {
     name: string;
     description: string;
     eventIds: string[];
-    createTime: string;
-    updateTime: string;
 }
 
 export const apiService = {
     // Events
     getEvents: () => api.get<{ success: boolean; data: Event[] }>('/events'),
     getEvent: (id: string) => api.get<{ success: boolean; data: Event }>(`/events/${id}`),
-    createEvent: (data: Partial<Event>) => api.post<{ success: boolean; data: Event }>('/events', data),
+    createEvent: (data: { name: string; type: string; description: string; properties?: { name: string; type: string; description: string }[] }) =>
+        api.post<{ success: boolean; data: Event }>('/events', data),
     updateEvent: (id: string, data: Partial<Event>) => api.put<{ success: boolean; data: Event }>(`/events/${id}`, data),
     deleteEvent: (id: string) => api.delete<{ success: boolean; message: string }>(`/events/${id}`),
 

@@ -125,3 +125,155 @@ h2 {
   margin-top: 0;
   color: #333;
 }
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.create-btn {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.create-btn:hover {
+  background-color: #218838;
+}
+
+.create-form {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border: 1px solid #dee2e6;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #333;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.form-group textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.property-checkboxes {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  padding: 10px;
+  background-color: white;
+}
+
+.property-checkbox {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.property-checkbox:hover {
+  background-color: #f8f9fa;
+}
+
+.property-checkbox input[type="checkbox"] {
+  margin-right: 8px;
+  width: auto;
+}
+
+.property-name {
+  font-weight: 500;
+  margin-right: 8px;
+}
+
+.property-type {
+  color: #6c757d;
+  font-size: 0.9em;
+}
+
+.no-properties {
+  color: #6c757d;
+  font-style: italic;
+  text-align: center;
+  margin: 10px 0;
+}
+
+.event-checkboxes {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  padding: 10px;
+  background-color: white;
+}
+
+.event-checkbox {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.event-checkbox:hover {
+  background-color: #f8f9fa;
+}
+
+.event-checkbox input[type="checkbox"] {
+  margin-right: 8px;
+  width: auto;
+}
+
+.event-name {
+  font-weight: 500;
+  margin-right: 8px;
+}
+
+.event-type {
+  color: #6c757d;
+  font-size: 0.9em;
+}
+
+.no-events {
+  color: #6c757d;
+  font-style: italic;
+  text-align: center;
+  margin: 10px 0;
+}

@@ -5,6 +5,12 @@ const Properties: React.FC = () => {
     const [properties, setProperties] = useState<Property[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [showCreateForm, setShowCreateForm] = useState(false);
+    const [formData, setFormData] = useState({
+        name: '',
+        type: '',
+        description: ''
+    });
 
     useEffect(() => {
         fetchProperties();
@@ -16,8 +22,21 @@ const Properties: React.FC = () => {
             const response = await apiService.getProperties();
             setProperties(response.data.data);
             setError(null);
-        } catch (err) {
-            setError('Failed to fetch properties');
+        } catch (err: any) {
+            const statusCode = err.response?.status;
+            const backendMessage = err.response?.data?.message || err.response?.data?.error;
+            const axiosMessage = err.message;
+
+            let errorMessage = '';
+            if (backendMessage) {
+                errorMessage = `Error ${statusCode}: ${backendMessage}`;
+            } else if (axiosMessage) {
+                errorMessage = `Error ${statusCode}: ${axiosMessage}`;
+            } else {
+                errorMessage = `Error ${statusCode}: Failed to fetch properties`;
+            }
+
+            setError(errorMessage);
             console.error('Error fetching properties:', err);
         } finally {
             setLoading(false);
@@ -29,10 +48,49 @@ const Properties: React.FC = () => {
             try {
                 await apiService.deleteProperty(id);
                 fetchProperties(); // Refresh the list
-            } catch (err) {
-                setError('Failed to delete property');
+            } catch (err: any) {
+                const statusCode = err.response?.status;
+                const backendMessage = err.response?.data?.message || err.response?.data?.error;
+                const axiosMessage = err.message;
+
+                let errorMessage = '';
+                if (backendMessage) {
+                    errorMessage = `Error ${statusCode}: ${backendMessage}`;
+                } else if (axiosMessage) {
+                    errorMessage = `Error ${statusCode}: ${axiosMessage}`;
+                } else {
+                    errorMessage = `Error ${statusCode}: Failed to delete property`;
+                }
+
+                setError(errorMessage);
                 console.error('Error deleting property:', err);
             }
+        }
+    };
+
+    const handleCreate = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            await apiService.createProperty(formData);
+            setFormData({ name: '', type: '', description: '' });
+            setShowCreateForm(false);
+            fetchProperties(); // Refresh the list
+        } catch (err: any) {
+            const statusCode = err.response?.status;
+            const backendMessage = err.response?.data?.message || err.response?.data?.error;
+            const axiosMessage = err.message;
+
+            let errorMessage = '';
+            if (backendMessage) {
+                errorMessage = `Error ${statusCode}: ${backendMessage}`;
+            } else if (axiosMessage) {
+                errorMessage = `Error ${statusCode}: ${axiosMessage}`;
+            } else {
+                errorMessage = `Error ${statusCode}: Failed to create property`;
+            }
+
+            setError(errorMessage);
+            console.error('Error creating property:', err);
         }
     };
 
@@ -41,7 +99,48 @@ const Properties: React.FC = () => {
 
     return (
         <div className="properties">
-            <h2>Properties</h2>
+            <div className="header">
+                <h2>Properties</h2>
+                <button
+                    className="create-btn"
+                    onClick={() => setShowCreateForm(!showCreateForm)}
+                >
+                    {showCreateForm ? 'Cancel' : 'Create Property'}
+                </button>
+            </div>
+
+            {showCreateForm && (
+                <form onSubmit={handleCreate} className="create-form">
+                    <div className="form-group">
+                        <label>Name:</label>
+                        <input
+                            type="text"
+                            value={formData.name}
+                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Type:</label>
+                        <input
+                            type="text"
+                            value={formData.type}
+                            onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Description:</label>
+                        <textarea
+                            value={formData.description}
+                            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                            required
+                        />
+                    </div>
+                    <button type="submit">Create Property</button>
+                </form>
+            )}
+
             <div className="table-container">
                 <table>
                     <thead>
